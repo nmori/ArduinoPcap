@@ -78,14 +78,13 @@ void PCAP::newPacketSerial(uint32_t ts_sec, uint32_t ts_usec, uint32_t len, uint
   uint32_t incl_len = len;
   
 #if defined(ESP32)
-  if(incl_len > snaplen) incl_len = snaplen; /* safty check that the packet isn't too big (I ran into problems with the ESP8266 here) */
+  //if(incl_len > snaplen) incl_len = snaplen; /* safty check that the packet isn't too big (I ran into problems with the ESP8266 here) */
 #endif
   serialwrite_32(ts_sec);
   serialwrite_32(ts_usec);
   serialwrite_32(incl_len);
   serialwrite_32(orig_len);
-  
-  Serial.write(buf, incl_len);
+  Serial.write((uint8_t*)buf, incl_len);
 }
 
 /* write packet to file */
